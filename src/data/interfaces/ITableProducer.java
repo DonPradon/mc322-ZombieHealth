@@ -1,6 +1,9 @@
 package data.interfaces;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public interface ITableProducer {
 	public String[] requestAttributes();
-	public String[][] requestInstances();
+	public ArrayList<HashMap> requestInstances();
 }

@@ -3,7 +3,7 @@ package components;
 import data.interfaces.ITableProducer;
 
 public class Patient implements IPatient{
-
+	
 	@Override
 	public String ask(String question) {
 		// TODO Auto-generated method stub
