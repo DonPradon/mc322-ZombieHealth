@@ -7,8 +7,7 @@ public class Main {
 	public static void main(String[] args) {
 		//cria o componente de dados
 		DataSetComponent dataset = new DataSetComponent();
-				
-		dataset.setDataSource("src/data/csv_tables/example.csv");
+		dataset.chooseFile();
 		
 		
 		Doctor doctor = new Doctor();

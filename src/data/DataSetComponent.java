@@ -1,22 +1,64 @@
 package data;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.stream.Stream;
 
+import data.interfaces.IChoose;
 import data.interfaces.IDataSource;
 import data.interfaces.ITableProducer;
 
 
 
-public class DataSetComponent implements IDataSource, ITableProducer{
+public class DataSetComponent implements IDataSource, ITableProducer, IChoose{
 	
 	private String dataSource;
 	private String[] attributes;
 	private String[][] instances;
 	
+	@Override
+	public void chooseFile() {
+		String filePath = "";
+		boolean validFile = false;
+		//sacanner
+		Scanner input = new Scanner(System.in);
+		//caminho para a pasta das tabelas
+		String absolutePath = "./src/data/csv_tables";
+		
+		System.out.println("Escolha o banco de doenças que deseja consultar:");
+		try {
+			//lista as opcoes para o usuario
+			Stream<Path> files = Files.list(Paths.get(absolutePath + ""));
+			files.forEach(entry -> {
 	
+				System.out.println(entry.getFileName());
+				
+			});
+			files.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//espera a escolha do usuario
+		System.out.println("Digite o nome do arquivo: ");
+		while(validFile!=true) {
+			String fileName = input.nextLine();
+			filePath = absolutePath + "/" + fileName;
+			File choosenFile = new File(filePath);
+			validFile = choosenFile.exists();
+			if(validFile == false) {
+				System.out.println("Arquivo nao encontrado");
+			}
+		}
+		setDataSource(filePath);
+	}
 	@Override
 	public String[] requestAttributes() {
 		
