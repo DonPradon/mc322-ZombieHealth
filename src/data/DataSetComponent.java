@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
@@ -16,12 +17,11 @@ import data.interfaces.IDataSource;
 import data.interfaces.ITableProducer;
 
 
-
 public class DataSetComponent implements IDataSource, ITableProducer, IChoose{
 	
 	private String dataSource;
 	private String[] attributes;
-	private String[][] instances;
+	private ArrayList<HashMap> instances;
 	
 	@Override
 	public void chooseFile() {
@@ -66,7 +66,7 @@ public class DataSetComponent implements IDataSource, ITableProducer, IChoose{
 	}
 
 	@Override
-	public String[][] requestInstances() {
+	public ArrayList<HashMap> requestInstances() {
 		return this.instances;
 	}
 
@@ -86,20 +86,25 @@ public class DataSetComponent implements IDataSource, ITableProducer, IChoose{
 	}
 
 	private void readDS() {
-		ArrayList<String[]> instArray = new ArrayList<String[]>();
+		HashMap lineMap = new HashMap();
+		ArrayList<HashMap> instArray = new ArrayList<HashMap>();
 		try {
 			BufferedReader file = new BufferedReader(new FileReader(dataSource));
-
 			String line = file.readLine();
 			if (line != null) {
 				attributes = line.split(",");
 				line = file.readLine();
 				while (line != null) {
 					String[] instLine = line.split(",");
-					instArray.add(instLine);
+					
+					for(int i=0 ; i<attributes.length;i++) {
+						lineMap.put(attributes[i], instLine[i]);
+					}
+					instArray.add(lineMap);
 					line = file.readLine();
 				}
-				instances = instArray.toArray(new String[0][]);
+				instances = instArray;
+				System.out.println(instArray.size());
 			}
 			file.close();
 		} catch (IOException erro) {
