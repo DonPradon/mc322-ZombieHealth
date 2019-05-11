@@ -86,25 +86,29 @@ public class DataSetComponent implements IDataSource, ITableProducer, IChoose{
 	}
 
 	private void readDS() {
-		HashMap lineMap = new HashMap();
+		
+		HashMap lineMap = null;
 		ArrayList<HashMap> instArray = new ArrayList<HashMap>();
 		try {
 			BufferedReader file = new BufferedReader(new FileReader(dataSource));
 			String line = file.readLine();
 			if (line != null) {
-				attributes = line.split(",");
+				//pega primeira linha e separa em atributos
+				this.attributes = line.split(",");
 				line = file.readLine();
 				while (line != null) {
+					//cria o hashMap de 1 linha
+					lineMap = new HashMap();
 					String[] instLine = line.split(",");
-					
-					for(int i=0 ; i<attributes.length;i++) {
-						lineMap.put(attributes[i], instLine[i]);
+					//preenche o Hash a linha
+					for(int i=0 ; i<this.attributes.length;i++) {
+						lineMap.put(this.attributes[i], instLine[i]);
 					}
+					//adiciona no array
 					instArray.add(lineMap);
 					line = file.readLine();
 				}
-				instances = instArray;
-				System.out.println(instArray.size());
+				this.instances = instArray;
 			}
 			file.close();
 		} catch (IOException erro) {
