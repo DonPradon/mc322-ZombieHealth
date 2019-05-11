@@ -17,7 +17,7 @@ public class Patient implements IPatient{
 		String response = "unknwon";
 		
 		if (patientMap.get(question) != null) {
-			response = (patientMap.get(question).equals(("t")) ? "yes" : "no");
+			response = (String) (patientMap.get(question));
 		}
 		
 		return response;
