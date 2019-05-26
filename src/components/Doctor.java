@@ -54,7 +54,7 @@ public class Doctor implements IDoctor{
 				}
 			}
 			System.out.println("Responder has: " + diagnostic);
-			
+			//teste
 		} else {
 			System.out.println("I Can't start an interview without a Responder :(");
 		}
