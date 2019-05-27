@@ -30,9 +30,15 @@ public class SmartDoctor implements ISmartDataProducer{
 		for(HashMap<String, Integer> map : outcomesMap.values()) {
 			fixedMap.putAll(map);
 		}
+		System.out.println(bla);
+		System.out.println(outcomesMap);
+		System.out.println(fixedMap);
 		for(HashMap<String, Integer> map: bla.values()) {
 			entropy -=parcialEntropyCalculation(map);
 		}
+		entropy += parcialEntropyCalculation(fixedMap);
+		System.out.println(entropy);
+		
 		return entropy;
 	}
 	private HashMap<String, HashMap<String,Integer>> outCome(String attribute) {
