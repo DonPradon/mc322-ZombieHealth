@@ -5,5 +5,5 @@ import java.util.HashMap;
 
 public interface ITableProducer {
 	public String[] requestAttributes();
-	public ArrayList<HashMap> requestInstances();
+	public ArrayList<HashMap<String, String>> requestInstances();
 }
