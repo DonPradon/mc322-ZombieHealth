@@ -21,14 +21,14 @@ public class DataSetComponent implements IDataSource, ITableProducer, IChoose{
 	
 	private String dataSource;
 	private String[] attributes;
-	private ArrayList<HashMap> instances;
+	private ArrayList<HashMap<String, String>> instances;
+	private Scanner input;
 	
 	@Override
 	public void chooseFile() {
 		String filePath = "";
 		boolean validFile = false;
-		//sacanner
-		Scanner input = new Scanner(System.in);
+		input = new Scanner(System.in);
 		//caminho para a pasta das tabelas
 		String absolutePath = "./src/data/csv_tables";
 		
@@ -66,7 +66,7 @@ public class DataSetComponent implements IDataSource, ITableProducer, IChoose{
 	}
 
 	@Override
-	public ArrayList<HashMap> requestInstances() {
+	public ArrayList<HashMap<String, String>> requestInstances() {
 		return this.instances;
 	}
 
@@ -87,8 +87,8 @@ public class DataSetComponent implements IDataSource, ITableProducer, IChoose{
 
 	private void readDS() {
 		
-		HashMap lineMap = null;
-		ArrayList<HashMap> instArray = new ArrayList<HashMap>();
+		HashMap<String,String> lineMap = null;
+		ArrayList<HashMap<String, String>> instArray = new ArrayList<HashMap<String, String>>();
 		try {
 			BufferedReader file = new BufferedReader(new FileReader(dataSource));
 			String line = file.readLine();
@@ -98,7 +98,7 @@ public class DataSetComponent implements IDataSource, ITableProducer, IChoose{
 				line = file.readLine();
 				while (line != null) {
 					//cria o hashMap de 1 linha
-					lineMap = new HashMap();
+					lineMap = new HashMap<String,String>();
 					String[] instLine = line.split(",");
 					//preenche o Hash a linha
 					for(int i=0 ; i<this.attributes.length;i++) {

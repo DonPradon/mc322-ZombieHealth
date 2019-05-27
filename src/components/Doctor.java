@@ -25,7 +25,7 @@ public class Doctor implements IDoctor{
 	public void startInterview() {
 		//IDEA _ mais burro possivel: contruir o hashmap perguntando TUDO
 		// tirar o campo diagonistico, comparar, dar o diagnotico
-		ArrayList<HashMap> instances = this.producer.requestInstances();
+		ArrayList<HashMap<String, String>> instances = this.producer.requestInstances();
 		String[] attributes = this.producer.requestAttributes();
 		String diagnostic = "not sure";
 		boolean found = true;
