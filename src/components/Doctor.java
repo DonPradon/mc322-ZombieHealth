@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import components.interfaces.IResponder;
+import data.interfaces.ISmartDataProducer;
 import data.interfaces.ITableProducer;
 
 public class Doctor implements IDoctor{
 	private IResponder responder;
 	private ITableProducer producer;
+	private ISmartDataProducer sProducer;
 	
 	@Override
 	public void connect(IResponder responder) {
@@ -20,7 +22,13 @@ public class Doctor implements IDoctor{
 	public void connect(ITableProducer producer) {
 		this.producer = producer;
 	}
-	
+
+
+	@Override
+	public void connect(ISmartDataProducer sProducer) {
+		this.sProducer = sProducer;
+	}
+
 	@Override
 	public void startInterview() {
 		//IDEA _ mais burro possivel: contruir o hashmap perguntando TUDO
@@ -28,9 +36,13 @@ public class Doctor implements IDoctor{
 		ArrayList<HashMap<String, String>> instances = this.producer.requestInstances();
 		String[] attributes = this.producer.requestAttributes();
 		String diagnostic = "not sure";
+		
 		boolean found = true;
 		
 		HashMap patientPreview = new HashMap();
+		
+		double x = this.sProducer.entropyCalculation(attributes[2]);
+		System.out.println(x);
 		if (responder != null) {
 			int i;
 			for(i = 0;i<attributes.length-1; i++) {
@@ -61,6 +73,5 @@ public class Doctor implements IDoctor{
 		boolean result = responder.finalAnswer(diagnostic);
 		System.out.println("Correct answer? " + ((result) ? "I'm right!" : "I'm wrong"));
 	}
-
 
 }

@@ -18,7 +18,6 @@ public class Main {
 		
 		sDoctor.connect(dataset);
 		//d1 = sDoctor.outCome("paralysis");
-		sDoctor.entropyCalculation("paralysis");
 		//d2 = sDoctor.outCome("paralysis", true);
 		//sDoctor.parcialEntropyCalculation(d1);
 		//sDoctor.parcialEntropyCalculation(d2);
@@ -28,6 +27,8 @@ public class Main {
 		doctor.connect(dataset);
 		//conecta doutor ao paciente
 		doctor.connect(patient);
+		//conecta smartpdocuer
+		doctor.connect(sDoctor);
 		// roda progama
 		doctor.startInterview();
 		
