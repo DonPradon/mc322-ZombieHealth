@@ -1,5 +1,6 @@
 import components.Doctor;
 import components.Patient;
+import components.Probability;
 import components.SmartDoctor;
 import data.DataSetComponent;
 
@@ -12,6 +13,7 @@ public class Main {
 		SmartDoctor sDoctor = new SmartDoctor();
 		Doctor doctor = new Doctor();
 		Patient patient = new Patient();
+		Probability calculator = new Probability();
 		
 		sDoctor.connect(dataset);
 		//conecta paciente a matriz de dados
@@ -22,6 +24,8 @@ public class Main {
 		doctor.connect(patient);
 		//conecta smartpdocuer
 		doctor.connect(sDoctor);
+		//conecta o calculador de probabilidade
+		doctor.connect(calculator);
 		// roda progama
 		doctor.startInterview();
 		
