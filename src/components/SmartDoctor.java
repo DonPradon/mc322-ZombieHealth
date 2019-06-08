@@ -123,7 +123,6 @@ public class SmartDoctor implements ISmartDataProducer{
 			pEntropy -= pLog2((double)(occurances1/totalcase));
 		}
 
-		double res1 = weight * pEntropy;
 		return weight * pEntropy;
 	}
 

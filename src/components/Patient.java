@@ -7,7 +7,7 @@ import data.interfaces.ITableProducer;
 
 public class Patient implements IPatient{
 	
-	private HashMap patientMap;
+	private HashMap<String, String> patientMap;
 	private String diagnosticKey;
 	
 	@Override
