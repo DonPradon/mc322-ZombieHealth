@@ -1,9 +1,7 @@
 package components;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 import components.interfaces.IDoctor;
@@ -35,9 +33,6 @@ public class Doctor implements IDoctor{
 
 	@Override
 	public void startInterview() {
-		//IDEA _ mais burro possivel: contruir o hashmap perguntando TUDO
-		// tirar o campo diagonistico, comparar, dar o diagnotico
-		ArrayList<HashMap<String, String>> instances = this.producer.requestInstances();
 		String[] attributes = this.producer.requestAttributes();
 		String[] symptons = Arrays.copyOfRange(attributes, 0, attributes.length-1);
 		String diagnostic = "not sure";
