@@ -2,6 +2,7 @@ package components;
 
 import java.util.HashMap;
 
+import components.interfaces.IPatient;
 import data.interfaces.ITableProducer;
 
 public class Patient implements IPatient{
@@ -19,7 +20,7 @@ public class Patient implements IPatient{
 		if (patientMap.get(question) != null) {
 			response = (String) (patientMap.get(question));
 		}
-		
+		System.out.println("Patient: " + response);
 		return response;
 	}
 

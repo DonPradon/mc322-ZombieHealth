@@ -20,28 +20,61 @@ public class SmartDoctor implements ISmartDataProducer{
 	}
 	
 	@Override
-	public double entropyCalculation(String attribute) {
-		HashMap<String, HashMap<String, Integer>> bla = new HashMap<String, HashMap<String,Integer>>();
-		HashMap<String, HashMap<String, Integer>> outcomesMap = new HashMap<String, HashMap<String,Integer>>();
-		HashMap<String, Integer> fixedMap = new HashMap<String, Integer>();
-		double entropy = 0;
-		bla = outCome(attribute);
-		outcomesMap = outCome(this.outcomeKey);
-		for(HashMap<String, Integer> map : outcomesMap.values()) {
-			fixedMap.putAll(map);
+	public String bestAttribute(String[] attributes) {
+		double highestEntropy = 0;
+		String bestAttribute = null;
+		for(String attribute: attributes) {
+			double entropyAtt = entropyCalculation(attribute);
+			if (entropyAtt > highestEntropy) {
+				highestEntropy = entropyAtt;
+				bestAttribute = attribute;
+			}
+		}	
+		return bestAttribute;
+	}
+	
+	@Override
+	public void removeHash(String key, String value) {
+		for(int i = 0;  i < this.dataMap.size() ; i++) {
+			HashMap<String, String> map = this.dataMap.get(i);
+			if(map.containsKey(key)) {
+				if(map.get(key).equalsIgnoreCase(value) == false) {
+					this.dataMap.remove(i);
+					i--;				
+				}
+			}
 		}
-		System.out.println(bla);
-		System.out.println(outcomesMap);
-		System.out.println(fixedMap);
-		for(HashMap<String, Integer> map: bla.values()) {
+	}
+	
+	@Override
+	public double entropyCalculation(String attribute) {
+		HashMap<String, HashMap<String, Integer>> attributesOutComeMap = new HashMap<String, HashMap<String,Integer>>();
+		HashMap<String, Integer> fixedMap = outComeMap();
+		
+		double entropy = 0;
+		
+		attributesOutComeMap = attributeOutComeMap(attribute);
+	
+		for(HashMap<String, Integer> map: attributesOutComeMap.values()) {
 			entropy -=parcialEntropyCalculation(map);
 		}
+		
 		entropy += parcialEntropyCalculation(fixedMap);
-		System.out.println(entropy);
 		
 		return entropy;
 	}
-	private HashMap<String, HashMap<String,Integer>> outCome(String attribute) {
+	
+	public HashMap<String, Integer> outComeMap() {
+		HashMap<String, Integer> fixedMap = new HashMap<String, Integer>();
+		HashMap<String, HashMap<String, Integer>> outcomesMap = new HashMap<String, HashMap<String,Integer>>();	
+		outcomesMap = attributeOutComeMap(this.outcomeKey);
+		for(HashMap<String, Integer> map : outcomesMap.values()) {
+			fixedMap.putAll(map);
+		}
+		return fixedMap;
+	}
+	
+	private HashMap<String, HashMap<String,Integer>> attributeOutComeMap(String attribute) {
 		HashSet<String> attributeValues = new HashSet<String>();
 		HashMap<String, Integer> outcomesCount = null;
 		HashMap<String, HashMap<String, Integer>> attributeMap = new HashMap<String, HashMap<String, Integer>>();
