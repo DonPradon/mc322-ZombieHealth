@@ -1,10 +1,10 @@
 package components;
 
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.Map;
-
 import components.interfaces.IDoctor;
+import components.interfaces.IProbability;
 import components.interfaces.IResponder;
 import data.interfaces.ISmartDataProducer;
 import data.interfaces.ITableProducer;
@@ -13,6 +13,7 @@ public class Doctor implements IDoctor{
 	private IResponder responder;
 	private ITableProducer producer;
 	private ISmartDataProducer sProducer;
+	private IProbability calculator;
 	
 	@Override
 	public void connect(IResponder responder) {
@@ -32,16 +33,37 @@ public class Doctor implements IDoctor{
 	}
 
 	@Override
+	public void connect(IProbability calculator) {
+		this.calculator = calculator;
+		
+	}
+	
+	@Override
 	public void startInterview() {
+		//checa se todas as dependencias foram setadas
+		for (Field f : getClass().getDeclaredFields()) {
+			try {
+				if (f.get(this) == null) {
+					System.out.println("Para o correto funcionamento do Doutor, conecte todos os seus componentes");
+					System.out.println("componente " + f.getType().getSimpleName().toUpperCase() + " nao foi conectado corretamente");
+					return;						
+				}
+			} catch (Exception e) {
+			e.printStackTrace();
+			return;
+			}
+		}
 		String[] attributes = this.producer.requestAttributes();
 		String[] symptons = Arrays.copyOfRange(attributes, 0, attributes.length-1);
 		String diagnostic = "not sure";
 		int questionAsked = 0;
 		DecimalFormat df2 = new DecimalFormat("#.##");
 		boolean oddCase = false; 
-
-		//criar condicao para parar o loop
-		while(calculateProbability() < 0.80 && questionAsked < (attributes.length-1)) {
+		
+		//Chance de acerto maior que x ou todas as perguntas possiveis
+		while(calculator.guessProbability(sProducer.outComeMap()) < 0.80 
+				&& questionAsked < (attributes.length-1)
+			) {
 			String question = sProducer.bestAttribute(symptons);	
 			String response;
 			// caso tenha duas doenças iguais
@@ -55,7 +77,7 @@ public class Doctor implements IDoctor{
 			questionAsked++;
 		}
 		
-		diagnostic = bestGuess();
+		diagnostic = calculator.bestGuess(sProducer.outComeMap());
 		boolean result = responder.finalAnswer(diagnostic);
 		
 		//case 2 or more have the same symptons with different diseases
@@ -69,32 +91,9 @@ public class Doctor implements IDoctor{
 		}
 		
 		System.out.println(diagnostic + " (probability: " + 
-				df2.format(calculateProbability()*100) + "%)");
+				df2.format((calculator.guessProbability(sProducer.outComeMap()))*100) + "%)");
 		System.out.println("Correct answer? " + ((result) ? "I'm right!" : "I'm wrong"));
 	}
-	private double calculateProbability() {
-		int total = 0, maxOccurances = 0;
-		
-		for(int occurances: this.sProducer.outComeMap().values()) {
-			total += occurances;
-		}
-		for(int occurances: this.sProducer.outComeMap().values()) {
-			if(occurances > maxOccurances) maxOccurances = occurances;
-		}
-		return ((double)maxOccurances/total);
-	}
-	private String bestGuess() {
-		int maxOccurances = 0;
-		String bestGuess = "unknown";
-		
-		for(Map.Entry<String, Integer> map: this.sProducer.outComeMap().entrySet()) {
-			if(map.getValue() > maxOccurances) {
-				maxOccurances = map.getValue();
-				bestGuess = map.getKey();
-			}
-		}
-		
-		return bestGuess;
-	}
 
+	
 }
