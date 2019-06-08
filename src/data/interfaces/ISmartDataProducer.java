@@ -4,19 +4,22 @@ import java.util.HashMap;
 
 public interface ISmartDataProducer extends ITableProducerReceptacle, IMath{
 	/*
-	 * RECEBE:  atributo Ã¡ ser analisado, condicao do atributo a ser analisada(v ou f)
-	 * RETORNA: resultados com o num de ocorrencias da tabela 
-	 *
-	 *private HashMap<String, Integer> outCome(String condition, boolean hasCondition);
-	 *
-	 * 
-	 * RECEBE:  Possiveis saidas e suas quantidades para e v ou f daquele aquele atributo
-	 * RETORNA:	entropia do atributo que gerou as saidas
-	 *
-	 *private double parcialEntropyCalculation(HashMap<String, Integer> outcomesCond);
-	 *
-	 *
-	 * RECEBE: Nome do atributo que deve ser invocado 
+	 * RECEBE:  atributo que deseja calcular a info gain
+	 * RETORNA: entropia do atributo
 	 */
 	public double entropyCalculation(String attribute);
+	/* 
+	 * RECEBE: lista de atributos
+	 * RETORNA: atributo com a maior entropia (maior ganho de info);
+	 */
+	public String bestAttribute(String[] attributes);
+	
+	/*
+	 * Função que remove os hash com qualquer valor diferente do passado para aquela chave.
+	 * 
+	 *  RECEBE: chave e valor que vai ser analisada.
+	 */
+	public void removeHash(String key, String value);
+	
+	public HashMap<String, Integer> outComeMap();
 }
