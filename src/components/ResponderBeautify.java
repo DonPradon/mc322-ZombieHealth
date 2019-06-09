@@ -24,5 +24,15 @@ public class ResponderBeautify implements IReponderBeautify{
 		}
 		return "I don't know how to answer this";
 	}
-
+	
+	@Override
+	public String formatString(String rawString) {
+		String formattedString;
+		
+		formattedString = rawString.replace("_", " ");
+		formattedString = formattedString.toLowerCase();
+		
+		return formattedString;
+	}
+	
 }

@@ -56,8 +56,8 @@ public class Doctor implements IDoctor{
 					return;						
 				}
 			} catch (Exception e) {
-			e.printStackTrace();
-			return;
+				e.printStackTrace();
+				return;
 			}
 		}
 		String[] attributes = this.producer.requestAttributes();
@@ -66,10 +66,9 @@ public class Doctor implements IDoctor{
 		int questionAsked = 0;
 		DecimalFormat df2 = new DecimalFormat("#.##");
 		boolean oddCase = false; 
-		
 		//Chance de acerto maior que x ou todas as perguntas possiveis
 		while(calculator.guessProbability(sProducer.outComeMap()) < 0.80 
-				&& questionAsked < (attributes.length-1)
+				&& questionAsked < (attributes.length)
 			) {
 			String question = sProducer.bestAttribute(symptons);	
 			String response;
@@ -78,7 +77,7 @@ public class Doctor implements IDoctor{
 				oddCase = true;
 				break;
 			}
-			System.out.println("Doctor: Do you have " + question + "?");
+			System.out.println("Doctor: Do you have " + beautifier.formatString(question) + "?");
 			response = responder.ask(question);
 			if(response != null) {
 				System.out.println("Patient: " + beautifier.booleanAnswer(response));
@@ -94,15 +93,15 @@ public class Doctor implements IDoctor{
 		
 		//case 2 or more have the same symptons with different diseases
 		if (oddCase == true) {
-			System.out.println("We are facing an odd case, your disease can be the following things: ");
+			System.out.println("Doctor: We are facing an odd case, your disease can be the following things: ");
 			for(String disease : sProducer.outComeMap().keySet())
 				System.out.println(disease);
-			System.out.print("But my guess is: ");
+			System.out.print("Doctor: But my guess is: ");
 		} else {
-			System.out.print("You probably have: ");
+			System.out.print("Doctor: You probably have: ");
 		}
 		
-		System.out.println(diagnostic + " (probability: " + 
+		System.out.println(beautifier.formatString(diagnostic) + " (probability: " + 
 				df2.format((calculator.guessProbability(sProducer.outComeMap()))*100) + "%)");
 		System.out.println("Correct answer? " + ((result) ? "I'm right!" : "I'm wrong"));
 	}
