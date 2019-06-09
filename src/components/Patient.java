@@ -12,15 +12,12 @@ public class Patient implements IPatient{
 	
 	@Override
 	public String ask(String question) {
-		//TODO responder mais coisas alem de sim e nao
-		// lista de opcoes? nao so checar t!
-		// tratar o hashmap para conter a resposta direto
-		String response = "unknwon";
+
+		String response = null;
 		
 		if (patientMap.get(question) != null) {
 			response = (String) (patientMap.get(question));
 		}
-		System.out.println("Patient: " + response);
 		return response;
 	}
 

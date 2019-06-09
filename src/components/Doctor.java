@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import components.interfaces.IDoctor;
 import components.interfaces.IProbability;
+import components.interfaces.IReponderBeautify;
 import components.interfaces.IResponder;
 import data.interfaces.ISmartDataProducer;
 import data.interfaces.ITableProducer;
@@ -14,6 +15,7 @@ public class Doctor implements IDoctor{
 	private ITableProducer producer;
 	private ISmartDataProducer sProducer;
 	private IProbability calculator;
+	private IReponderBeautify beautifier;
 	
 	@Override
 	public void connect(IResponder responder) {
@@ -36,6 +38,11 @@ public class Doctor implements IDoctor{
 	public void connect(IProbability calculator) {
 		this.calculator = calculator;
 		
+	}
+	
+	@Override
+	public void connect(IReponderBeautify beautifier) {
+		this.beautifier = beautifier;		
 	}
 	
 	@Override
@@ -73,7 +80,12 @@ public class Doctor implements IDoctor{
 			}
 			System.out.println("Doctor: Do you have " + question + "?");
 			response = responder.ask(question);
-			sProducer.removeHash(question, response);		
+			if(response != null) {
+				System.out.println("Patient: " + beautifier.booleanAnswer(response));
+				
+				sProducer.removeHash(question, response);		
+			
+			}
 			questionAsked++;
 		}
 		
@@ -87,13 +99,11 @@ public class Doctor implements IDoctor{
 				System.out.println(disease);
 			System.out.print("But my guess is: ");
 		} else {
-			System.out.print("U probably have: ");
+			System.out.print("You probably have: ");
 		}
 		
 		System.out.println(diagnostic + " (probability: " + 
 				df2.format((calculator.guessProbability(sProducer.outComeMap()))*100) + "%)");
 		System.out.println("Correct answer? " + ((result) ? "I'm right!" : "I'm wrong"));
 	}
-
-	
 }
