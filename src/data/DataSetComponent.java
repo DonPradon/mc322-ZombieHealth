@@ -32,7 +32,8 @@ public class DataSetComponent implements IDataSource, ITableProducer, IChoose{
 		//caminho para a pasta das tabelas
 		String absolutePath = "./src/data/csv_tables";
 		
-		System.out.println("Escolha o banco de doenças que deseja consultar:");
+		System.out.println("Choose the disease data file you want to consult:");
+		System.out.println("================");
 		try {
 			//lista as opcoes para o usuario
 			Stream<Path> files = Files.list(Paths.get(absolutePath + ""));
@@ -41,20 +42,21 @@ public class DataSetComponent implements IDataSource, ITableProducer, IChoose{
 				System.out.println(entry.getFileName());
 				
 			});
+			System.out.println("================");
 			files.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//espera a escolha do usuario
-		System.out.println("Digite o nome do arquivo: ");
+		System.out.println("Type the file name: ");
 		while(validFile!=true) {
 			String fileName = input.nextLine();
 			filePath = absolutePath + "/" + fileName;
 			File choosenFile = new File(filePath);
 			validFile = choosenFile.exists();
 			if(validFile == false) {
-				System.out.println("Arquivo nao encontrado");
+				System.out.println("File not found");
 			}
 		}
 		setDataSource(filePath);
