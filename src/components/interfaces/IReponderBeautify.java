@@ -25,5 +25,7 @@ public interface IReponderBeautify {
 			"No...", 
 			"No."
 			).collect(Collectors.toCollection(HashSet::new));
+	
 	public String booleanAnswer(String rawAnswer);
+	public String formatString(String rawString);
 }
