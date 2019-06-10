@@ -5,17 +5,19 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import components.interfaces.IDoctor;
 import components.interfaces.IProbability;
+import components.interfaces.IProbabilityGraph;
 import components.interfaces.IReponderBeautify;
 import components.interfaces.IResponder;
 import data.interfaces.ISmartDataProducer;
 import data.interfaces.ITableProducer;
 
-public class Doctor implements IDoctor{
+public class Doctor implements IDoctor {
 	private IResponder responder;
 	private ITableProducer producer;
 	private ISmartDataProducer sProducer;
 	private IProbability calculator;
 	private IReponderBeautify beautifier;
+	private IProbabilityGraph graph;
 	
 	@Override
 	public void connect(IResponder responder) {
@@ -37,6 +39,12 @@ public class Doctor implements IDoctor{
 	@Override
 	public void connect(IProbability calculator) {
 		this.calculator = calculator;
+		
+	}
+
+	@Override
+	public void connect(IProbabilityGraph graph) {
+		this.graph = graph;
 		
 	}
 	

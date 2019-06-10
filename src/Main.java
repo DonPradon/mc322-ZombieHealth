@@ -3,6 +3,7 @@ import components.Patient;
 import components.Probability;
 import components.ResponderBeautify;
 import components.SmartDoctor;
+import components.ProbabilityGraph;
 import data.DataSetComponent;
 
 public class Main {
