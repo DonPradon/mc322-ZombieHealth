@@ -21,8 +21,6 @@ import java.util.Map;
 
 public class ProbabilityGraph extends JPanel implements IProbabilityGraph {
 
-    private int width = 800;
-    private int heigth = 400;
     private int padding = 25;
     private int labelPadding = 25;
     private Color lineColor = new Color(44, 102, 230, 180);

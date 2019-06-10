@@ -16,6 +16,7 @@ public class Main {
 		Doctor doctor = new Doctor();
 		Patient patient = new Patient();
 		Probability calculator = new Probability();
+		ProbabilityGraph graph = new ProbabilityGraph();
 		ResponderBeautify beautifier = new ResponderBeautify();
 		
 		sDoctor.connect(dataset);
@@ -29,6 +30,8 @@ public class Main {
 		doctor.connect(sDoctor);
 		//conecta o calculador de probabilidade
 		doctor.connect(calculator);
+		//conecta o renderizador de grafico
+		doctor.connect(graph);
 		//conecta o beautifier
 		doctor.connect(beautifier);
 		// roda progama
