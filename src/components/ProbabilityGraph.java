@@ -74,7 +74,8 @@ public class ProbabilityGraph extends JPanel implements IProbabilityGraph {
         }
 
         // and for x axis
-        for (i = 0; i < this.getDataSize(); i++) {
+        i = 0;
+        for(String key: data.keySet()) {
             if (this.getDataSize() > 1) {
                 int x0 = i * (getWidth() - padding * 2 - labelPadding) / (this.getDataSize() - 1) + padding + labelPadding;
                 int x1 = x0;
@@ -84,12 +85,13 @@ public class ProbabilityGraph extends JPanel implements IProbabilityGraph {
                     g2.setColor(gridColor);
                     g2.drawLine(x0, getHeight() - padding - labelPadding - 1 - pointWidth, x1, padding);
                     g2.setColor(Color.BLACK);
-                    String xLabel = i + "";
+                    String xLabel = key;
                     FontMetrics metrics = g2.getFontMetrics();
                     int labelWidth = metrics.stringWidth(xLabel);
                     g2.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
                 }
                 g2.drawLine(x0, y0, x1, y1);
+                i++;
             }
         }
 
@@ -142,8 +144,9 @@ public class ProbabilityGraph extends JPanel implements IProbabilityGraph {
     @Override
     public void printGraph(HashMap<String, Integer> data) {
         Double total = 0.0;
-        Boolean shouldCreate = this.data.isEmpty();
- 
+        Boolean shouldCreate = this.data == null;
+        this.data = new HashMap<String, Double>();
+        
         for(int occurances: data.values()) {
             total += occurances;
         }
